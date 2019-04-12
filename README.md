@@ -1,10 +1,10 @@
 Hurtlocker
 ============
 
-``A pretty bad idea``
+*A pretty bad idea*
 
-Hurtlocker is an application that will lock your workstation at a given time,
-until you successfully post a sport application on strava.
+Hurtlocker is an application that will lock your workstation, until you
+successfully post a sport activity on [Strava](https://strava.com).
 
 Usage
 -----
@@ -18,6 +18,7 @@ pip install -r requirements.txt
 ```
 
 - You need a strava account.
+- This currently only works for i3vm (it invokes i3lock).
 - You need to create an application at https://www.strava.com/settings/api
 - Once you created your application, stick your `clientid` and `client secret` in
   the hurtlocker/hurtlocker.py script.
@@ -30,8 +31,8 @@ and store your secrets in `.hurtlocker`.
 The idea is that this script would be installed system-wide and then invoked in
 a cron, periodically.
 
-THIS IS NOT DONE YET THIS WILL LOCK YOU OUT OF YOUR MACHINE IF YOU DONT SETUP A
-SECOND ADMIN USER YOU CAN SWITCH TO
+**THIS IS NOT DONE YET THIS WILL LOCK YOU OUT OF YOUR MACHINE IF YOU DONT SETUP A
+SECOND ADMIN USER YOU CAN SWITCH TO**
 
 Once this is done, it will lock your screen using `i3lock`, and then ``IT WILL
 LOCK YOUR SYSTEM USER!``
