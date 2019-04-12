@@ -50,7 +50,6 @@ def locked():
 
 
 def unlock_session():
-    # unlock the poor dude
     print("Unlocking " + username)
     subprocess.run("/usr/bin/usermod -U " + username, shell=True)
 
@@ -62,12 +61,6 @@ def lock_session():
     subprocess.run("sudo -u " + username + " /usr/bin/i3lock --color=000000", shell=True)
 
 def main():
-    now = datetime.datetime.now().time()
-    today_target = datetime.time(hour=14, minute=30)
-    print(now)
-    print(today_target)
-    print(now > today_target)
-    sys.exit(0)
 
     if locked():
         if check_unlock_condition():

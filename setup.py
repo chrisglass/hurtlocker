@@ -10,7 +10,7 @@ from setuptools import setup
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
-    open('stravalocker/stravalocker.py').read(),
+    open('hurtlocker/hurtlocker.py').read(),
     re.M
     ).group(1)
 
@@ -20,13 +20,13 @@ with open("README.rst", "rb") as f:
 
 
 setup(
-    name = "stravalocker",
-    packages = ["stravalocker"],
+    name = "hurtlocker",
+    packages = ["hurtlocker"],
     entry_points = {
-        "console_scripts": ['stravalocker = stravalocker.stravalocker:main']
+        "console_scripts": ['hurtlocker = hurtlocker.hurtlocker:main']
         },
     version = version,
-    description = "Python command line application bare bones template.",
+    description = "A sadistic lockscreen that requires you to go for a run.",
     long_description = long_descr,
     author = "Chris Glass",
     author_email = "tribaal@gmail.com",
