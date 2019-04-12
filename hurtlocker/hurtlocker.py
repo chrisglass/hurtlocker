@@ -26,6 +26,9 @@ class PainfulHTTPServer(HTTPServer):
     running = True
 
     def serve_until_stopped(self):
+        # The normal HTTPServer is not stoppable. We don't actually want
+        # to listen any longer than just enough to grab the redirect info
+        # once the user authorized this app to get a token.
         while self.running:
             self.handle_request()
 
@@ -47,12 +50,12 @@ class StravaOauthRequestHandler(BaseHTTPRequestHandler):
         assert code
 
         # Let's just do the dirty and do the auth inline with the request...
+        # It's not like we expect a lot of traffic anyway.
         client = Client()
         access_token = client.exchange_code_for_token(client_id=CLIENT_ID,
                                               client_secret=CLIENT_SECRET,
                                               code=code)
 
-        # put the access token on disk in the proper store.
         with open(".hurtlocker", "w") as thefile:
             thefile.write(json.dumps(access_token))
 
@@ -61,6 +64,7 @@ class StravaOauthRequestHandler(BaseHTTPRequestHandler):
 
 
 def get_token_from_disk():
+    """Get the saved token from disk, or return an empty string if there is none."""
     contents = ""
     if os.path.isfile(".hurtlocker"):
         with open(".hurtlocker", "r") as thefile:
@@ -76,7 +80,9 @@ def get_token_from_disk():
 
 
 def get_strava_token():
-    """Return a valid strava token"""
+    """Return a valid strava token.
+
+    This will initiate the OAUTH dance if needed, or just get the token from disk."""
 
     if get_token_from_disk() == "":
         client = Client()
@@ -95,16 +101,15 @@ def get_strava_token():
 
 
 def check_unlock_condition():
-    """Determine whether the person went for an activity since the lock
-    time."""
-    # Query strava here.
+    """Determine whether the person registered an activity since lock time."""
     token = get_strava_token()
     client = Client(access_token=token)
     today = datetime.date.today()
     afterdate = datetime.datetime.combine(today, LOCK_TIME_OF_DAY)
+
     activities = client.get_activities(after=afterdate.isoformat())
 
-    # Did the locked person record an activity since the lock time?
+    # Did the locked person record at least one activity since the lock time?
     if len(activites) > 0:
         return True
     return False
@@ -148,8 +153,8 @@ def lock_session():
     subprocess.run("sudo -u " + username + " /usr/bin/i3lock --color=000000",
                    shell=True)
 
-def main():
 
+def main():
     if locked():
         if check_unlock_condition():
             unlock_session()
