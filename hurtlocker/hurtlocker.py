@@ -100,7 +100,7 @@ def get_strava_token():
     return token
 
 
-def check_unlock_condition():
+def should_unlock():
     """Determine whether the person registered an activity since lock time."""
     token = get_strava_token()
     client = Client(access_token=token)
@@ -115,8 +115,12 @@ def check_unlock_condition():
     return False
 
 
-def check_lock_condition():
+def should_lock():
     """Lock the computer if now is later than the configured lock time."""
+    if should_unlock():
+        # No need to lock anymore, we've already unlocked once today.
+        return False
+
     now = datetime.datetime.now().time()
     # This naive test ensures that we automatically unlock at midnight.
     if now >= LOCK_TIME_OF_DAY:
@@ -156,8 +160,8 @@ def lock_session():
 
 def main():
     if locked():
-        if check_unlock_condition():
+        if should_unlock():
             unlock_session()
     else:
-        if check_lock_condition():
+        if should_lock():
             lock_session()
