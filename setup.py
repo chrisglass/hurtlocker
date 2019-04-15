@@ -15,7 +15,7 @@ version = re.search(
     ).group(1)
 
 
-with open("README.rst", "rb") as f:
+with open("README.md", "rb") as f:
     long_descr = f.read().decode("utf-8")
 
 

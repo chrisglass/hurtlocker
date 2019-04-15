@@ -1,3 +1,6 @@
 __pycache__
 .venv
 .hurtlocker
+build/
+dist/
+*.egg-info/
