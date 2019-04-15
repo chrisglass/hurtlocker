@@ -159,6 +159,11 @@ def lock_session():
 
 
 def main():
+
+    if os.geteuid() != 0:
+        print("Hurtlocker needs to be run as root.")
+        sys.exit(1)
+
     if locked():
         if should_unlock():
             unlock_session()
