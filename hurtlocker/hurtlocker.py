@@ -16,6 +16,9 @@ CLIENT_SECRET="REPLACEME"
 USERNAME="REPLACEME"  # Your unix username
 LOCK_TIME_OF_DAY=datetime.time(hour=12, minute=00)
 
+XAUTHORITY_FILE=os.path.join("/home", USERNAME, ".Xauthority")
+DISPLAY=":0"  # Tricky if the user is running on another display.
+
 
 class PainfulHTTPServer(HTTPServer):
     """Python Y U do this to me.
@@ -153,9 +156,11 @@ def unlock_session():
 def lock_session():
     """Lock the session down for the user in question (works on i3)."""
     print("Locking " + username)
+    env = {"XAUTHORITY": XAUTHORITY_FILE,
+           "DISPLAY": DISPLAY}
     subprocess.run("/usr/sbin/usermod -L " + username, shell=True)
     subprocess.run("sudo -u " + username + " /usr/bin/i3lock --color=000000",
-                   shell=True)
+                   shell=True, env=env)
 
 
 def main():
