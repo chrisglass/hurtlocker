@@ -9,6 +9,11 @@ successfully post a sport activity on [Strava](https://strava.com).
 Usage
 -----
 
+**THIS WILL LOCK YOU OUT OF YOUR MACHINE IF YOU DONT SETUP A
+SECOND ADMIN USER YOU CAN SWITCH TO**
+
+(until you complete an activity, of course)
+
 Grab the tree, then start a virtualenv, and activate it:
 
 ```bash
@@ -31,8 +36,6 @@ and store your secrets in `.hurtlocker`.
 The idea is that this script would be installed system-wide and then invoked in
 a cron, periodically.
 
-**THIS IS NOT DONE YET THIS WILL LOCK YOU OUT OF YOUR MACHINE IF YOU DONT SETUP A
-SECOND ADMIN USER YOU CAN SWITCH TO**
 
 Once this is done, it will lock your screen using `i3lock`, and then ``IT WILL
 LOCK YOUR SYSTEM USER!``
